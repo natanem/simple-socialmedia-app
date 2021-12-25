@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <section>
+        <form action="" method="post">
+            <div class="form-errors">
+                {% for error in form.errors %}
+                    {{ error }}
+                {% endfor %}
+            </div>
+            <div class="form-groups">
+                {% csrf_token %}
+                {% for field in form %}
+                    {{ field }}
+                {% endfor %}
+                <button type="submit" class="btn btn-black">Signup</button>
+            </div>
+        </form>
+    </section>
+{% endblock content %}

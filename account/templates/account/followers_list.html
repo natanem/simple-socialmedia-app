@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <section class="followers_list">
+        <h1>Followers for {{ profile.user.username }}</h1>
+        <article>
+            {% for follower in followers %}
+            {% if request.user != follower.user %}
+                <div>
+                    <a href="{% url 'profile' follower.pk %}"><strong> {{ follower.user.username }}</strong></a>
+                    <a href="{% url 'follow' follower.pk %}" class="follow">
+                        {% if request.user.profile in follower.followers.all %}
+                            Unfollow
+                        {% else %}
+                            Follow
+                        {% endif %}
+                    </a>
+                </div>
+                {% endif %}
+            {% endfor %}
+        </article>
+    </section>
+{% endblock content %}

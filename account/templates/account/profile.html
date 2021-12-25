@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <section class="profile">
+        <h1>Profile</h1>
+        <article>
+            <p>{{ user.first_name }} {{ user.last_name }}</p>
+            <div class="stats">
+                <a href="{% url 'following_list' user.profile.pk %}" class="following_stat">
+                    <h3>Following</h3>
+                    {{ user.profile.following.all|length}}
+                </a>
+                <a href="{% url 'followers_list' user.profile.pk %}" class="followers_stat">
+                    <h3>Followers</h3>
+                    {{ user.profile.followers.all|length}}
+                </a>
+                <div class="feed_stat">
+                    <h3>Post</h3>
+                    {{ user.feeds.all|length}}
+                </div>
+                 {% if request.user != user %}
+                    <a href="{% url 'follow' user.profile.pk %}" class="follow">
+                        {% if request.user.profile in user.profile.followers.all %}
+                            Unfollow
+                        {% else %}
+                            Follow
+                        {% endif %}
+                    </a>
+                {% endif %}
+            </div>
+           
+        </article>
+        <article>
+            {% for feed  in feeds %}
+            <div>
+                <div class="box">
+                    <a href="{% url 'feed:feed_detail' feed.pk %}">{{ feed }}</a>
+                </div>
+            </div>
+            {% empty %}
+                {% if request.user == user.user %}
+                
+                <p>You haven't posted anything yet.</p>
+                {% else %}
+                <p>{{ user.username }} hasn't posted anything yet.</p>
+                {% endif %}
+            {% endfor %}
+        </article>
+    </section>
+{% endblock content %}

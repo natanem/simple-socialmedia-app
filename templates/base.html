@@ -1,0 +1,54 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">sm📷</div>
+            <ul>
+                <li><a href="{% url 'landing:home' %}">Home </a></li>
+                {% if request.user.is_authenticated %}
+                    <li><a href="{% url 'notification:notification_list' %}">Notification</a></li>
+                    <li><a href="{% url 'feed:feed_list' %}">Feeds </a></li>
+                    {% comment %} <li><a href="{% url 'feed:feed_create' %}">Post a Feeds </a></li> {% endcomment %}
+                {% endif %}
+            </ul>
+            <ul class="end">
+                {% if request.user.is_authenticated %}
+                
+                    <li><a href="{% url 'profile' %}">Hello, {{ request.user.username }}</a></li>
+                    <li><a href="{% url 'accounts:logout' %}">Logout</a></li>
+                {% else %}
+                    <li><a href="{% url 'accounts:login' %}">Login</a></li>
+                    <li><a href="{% url 'signup' %}">Register</a></li>
+                {% endif %}
+                
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section class="container">
+            {% block content %}
+            
+            {% endblock content %}
+        </section>
+    </main>
+    <footer class="footer">
+        <section class="container">
+            <h4>sn</h4>
+            <p>All right reserved &copy; <span class="year"></span></p>
+        </section>
+    </footer>
+    {% block script %}
+
+    {% endblock script %}
+    <script src="{% static 'js/base.js' %}"></script>
+</body>
+</html>
