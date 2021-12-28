@@ -10,28 +10,41 @@
 </head>
 <body>
     <header>
-        <nav>
-            <div class="logo">sm📷</div>
-            <ul>
-                <li><a href="{% url 'landing:home' %}">Home </a></li>
-                {% if request.user.is_authenticated %}
-                    <li><a href="{% url 'notification:notification_list' %}">Notification</a></li>
-                    <li><a href="{% url 'feed:feed_list' %}">Feeds </a></li>
-                    {% comment %} <li><a href="{% url 'feed:feed_create' %}">Post a Feeds </a></li> {% endcomment %}
-                {% endif %}
-            </ul>
-            <ul class="end">
-                {% if request.user.is_authenticated %}
-                
-                    <li><a href="{% url 'profile' %}">Hello, {{ request.user.username }}</a></li>
-                    <li><a href="{% url 'accounts:logout' %}">Logout</a></li>
-                {% else %}
-                    <li><a href="{% url 'accounts:login' %}">Login</a></li>
-                    <li><a href="{% url 'signup' %}">Register</a></li>
-                {% endif %}
-                
-            </ul>
-        </nav>
+        <div class="container">
+            <nav>
+                <div class="logo"><a href="{% url 'landing:home' %}">sm📷</a></div>
+                <ul>
+                    <li><a href="{% url 'landing:home' %}">Home </a></li>
+                    {% if request.user.is_authenticated %}
+                        <li><a class="notification-link" href="{% url 'notification:notification_list' %}">Notifications 
+                            {% if notification_counts > 0 %}
+                                <span class="notification-counts">{{ notification_counts }}</span>
+                            {% endif %}
+                            </a>
+                        </li>
+                        <li><a href="{% url 'feed:feed_list' %}">Feeds </a></li>
+                        {% comment %} <li><a href="{% url 'feed:feed_create' %}">Post a Feeds </a></li> {% endcomment %}
+                    {% endif %}
+                </ul>
+                <form class="search-form" action="{% url 'search' %}" method="get">
+                    <div class="form-groups">
+                    <input type="search" name="query" id="search-input" class="search-input">
+                    </div>
+                    <button class="btn btn-primary" type="submit">search</button>
+                </form>
+                <ul class="end">
+                    {% if request.user.is_authenticated %}
+                    
+                        <li><a href="{% url 'profile' %}">Hello, {{ request.user.username }}</a></li>
+                        <li><a href="{% url 'accounts:logout' %}">Logout</a></li>
+                    {% else %}
+                        <li><a href="{% url 'accounts:login' %}">Login</a></li>
+                        <li><a href="{% url 'signup' %}">Register</a></li>
+                    {% endif %}
+                    
+                </ul>
+            </nav>
+        </div>
     </header>
     <main>
         <section class="container">

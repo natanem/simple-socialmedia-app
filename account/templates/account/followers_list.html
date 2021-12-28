@@ -5,9 +5,15 @@
         <h1>Followers for {{ profile.user.username }}</h1>
         <article>
             {% for follower in followers %}
-            {% if request.user != follower.user %}
-                <div>
-                    <a href="{% url 'profile' follower.pk %}"><strong> {{ follower.user.username }}</strong></a>
+                <div class="info">
+                    <div>
+                        <a href="{% url 'profile' follower.pk %}"><strong> {{ follower.user.username }}</strong></a>
+                        <div class="stat">
+                            <span> {{ follower.following.all|length}} Following </span>
+                            <span> {{ follower.followers.all|length}} Followers </span>
+                            <span>{{  follower.user.feeds.all|length}} Posts</span>
+                        </div>
+                    </div>
                     <a href="{% url 'follow' follower.pk %}" class="follow">
                         {% if request.user.profile in follower.followers.all %}
                             Unfollow
@@ -16,7 +22,6 @@
                         {% endif %}
                     </a>
                 </div>
-                {% endif %}
             {% endfor %}
         </article>
     </section>

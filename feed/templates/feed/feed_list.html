@@ -2,87 +2,85 @@
 {% load humanize %}
 
 {% block content %}
-    <section>
+    <section class="feed-form">
         <form action="{% url 'feed:feed_create' %}" method="post">
+            {% csrf_token %}
             <div class="form-groups">
-                {% csrf_token %}
                 {{ feed_form.content }}
-                <button type="submit" class="btn btn-black">Post</button>
             </div>
+            <button type="submit" class="btn btn-primary">Post</button>
         </form>
     </section>
-    <div class="test">
-        <button class="test_btn">Testing..</button>
-    </div>
     {% if feeds %}
         <h1>Feeds</h1>
     {% endif %}
     <section class="feeds">
         {% for feed in feeds %}
-            <article class="feed">
-                <header class="feed-header">
-                    <a href="{% url 'profile' feed.user.pk %}" class="feed-user">{{ feed.user }}</a>
-                    <span class="feed-date">{{ feed.created | naturaltime }}</span>
-                </header>
-                <div class="feed-body">
-                    <p>{{ feed.content }}</p>
-                </div>
-                <footer class="feed-footer">
-                    <span class="feed-user">{{ feed.user }}</span>
-                    <div>
-                        {% for like in feed.likes.all|slice:3 %}
-                            <span class="user-like">
-                                {{like.username|upper|slice:1}}
-                            </span>
-                        {% endfor %}
-                    </div>
-                    <span class="feed-likes">
-                        <a href="{% url 'feed:like_feed' feed.pk %}" class="feed-like-icon" data-feed-id="{{feed.pk }}" data-action=
-                        {% if request.user in feed.likes.all %}
-                        'unlike'
-                        {% endif %}
-                        'like'
-                        >
-                            {% if request.user in feed.likes.all %}
-                            👍
-                            {% else %}
-                            👍🏼
-                            {% endif %}
-                        </a>
-                        <span class="feed-like-number">{{ feed.likes.all | length}}</span>
-                        <span>like{{ feed.likes.count| pluralize}}</span>
-
-                        {% comment %} <a href="{% url 'feed:comment_feed' feed.pk %}" class="feed-comment-icon">📝</a> {% endcomment %}
-                        <span class="feed-comment-number">{{ feed.comments.all | length}}</span>
-                        <span>comment{{ feed.comments.count| pluralize}}</span>
-                        <a href="{% url 'feed:feed_detail' feed.pk %}" class="btn">View</a>
-                    </span>
-                </footer>
-                <div class="feed-comments">
-                    {% for comment in feed.comments.all|slice:2 %}
-                    
-                    <div class="comment">
-                        <a href="{% url 'profile' comment.user.pk %}"><strong>{{ comment.user }} </strong></a>{{ comment.content|truncatechars:20 }}
-                    </div>
-                    {% empty %}
-                        <div class="comment">
-                            {% if feed.user != request.user %}
-                            
-                            Be the first one to comment on this post
-                            {% endif %}
-                        </div>
+           {% if feed.user != request.user %}
+           <article class="feed">
+            <header class="feed-header">
+                <a href="{% url 'profile' feed.user.pk %}" class="feed-user">{{ feed.user }}</a>
+                <span class="feed-date">{{ feed.created | naturaltime }}</span>
+            </header>
+            <div class="feed-body">
+                <p>{{ feed.content }}</p>
+            </div>
+            <footer class="feed-footer">
+                {% comment %} <div>
+                    {% for like in feed.likes.all|slice:3 %}
+                        <span class="user-like">
+                            {{like.username|upper|slice:1}}
+                        </span>
                     {% endfor %}
+                </div> {% endcomment %}
+                <span class="feed-likes">
+                    <a href="{% url 'feed:like_feed' feed.pk %}" class="feed-like-icon" data-feed-id="{{feed.pk }}" data-action=
+                    {% if request.user in feed.likes.all %}
+                    'unlike'
+                    {% endif %}
+                    'like'
+                    >
+                        {% if request.user in feed.likes.all %}
+                        👍
+                        {% else %}
+                        👍🏼
+                        {% endif %}
+                    </a>
+                    <span class="feed-like-number">{{ feed.likes.all | length}}</span>
+                    <span>like{{ feed.likes.count| pluralize}}</span>
+
+                    {% comment %} <a href="{% url 'feed:comment_feed' feed.pk %}" class="feed-comment-icon">📝</a> {% endcomment %}
+                    <span class="feed-comment-number">{{ feed.comments.all | length}}</span>
+                    <span>comment{{ feed.comments.count| pluralize}}</span>
+                    <a href="{% url 'feed:feed_detail' feed.pk %}" class="btn btn-secondary">View</a>
+                </span>
+            </footer>
+            <div class="feed-comments">
+                {% for comment in feed.comments.all|slice:2 %}
+                
+                <div class="comment">
+                    <a href="{% url 'profile' comment.user.pk %}"><strong>{{ comment.user }} </strong></a>{{ comment.content|truncatechars:20 }}
                 </div>
-                <div class="comment-form">
-                    <form action="{% url 'feed:comment_feed' feed.id %}" method="post">
-                        <div class="form-groups">
-                            {% csrf_token %}
-                            {{ comment_form.content }}
-                            <button type="submit" class="btn btn-black">Post</button>
-                        </div>
-                    </form>
-                </div>
-            </article>
+                {% empty %}
+                    <div class="comment">
+                        {% if feed.user != request.user %}
+                        
+                        Be the first one to comment on this post
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="comment-form">
+                <form action="{% url 'feed:comment_feed' feed.id %}" method="post">
+                    <div class="form-groups">
+                        {% csrf_token %}
+                        {{ comment_form.content }}
+                        <button type="submit" class="btn btn-secondary">Post</button>
+                    </div>
+                </form>
+            </div>
+          </article>
+           {% endif %}
         {% empty %}
             No posts yet. Be the first one to post
         {% endfor %}

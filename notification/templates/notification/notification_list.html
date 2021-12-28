@@ -1,11 +1,10 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <section>
-
+    <section class="notifications">
         {% for notification in notifications %}
             
-            <div>
+            <div class="info">
                 {% comment %} <a href="{% url 'profile' notification.user.profile.pk %}"><strong>{{ notification.user.username }}</strong></a> {% endcomment %}
                 {% if notification.type == 'like' %}
                     <p><a href="{% url 'notification:notification_detail' notification.pk %}"><strong>{{ notification.user.username }}</strong> liked your post</a></p>
@@ -14,9 +13,9 @@
                 {% elif notification.type == 'follow' %}
                     <p><a href="{% url 'notification:notification_detail' notification.pk %}"><strong>{{ notification.user.username }}</strong> started following you</a></p>
                 {% endif %}
+                {% empty %}
+                <p> You have no notification</p>
+                {% endfor %}
             </div>
-        {% empty %}
-           <p> You have no notification</p>
-        {% endfor %}
     </section>
 {% endblock content %}

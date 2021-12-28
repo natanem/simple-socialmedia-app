@@ -2,6 +2,7 @@
 {% load humanize %}
 
 {% block content %}
+        <section class="feed_detail">
             <article class="feed">
                 <header class="feed-header">
                     <a href="{% url 'profile' feed.user.pk %}" class="feed-user">{{ feed.user }}</a>
@@ -31,6 +32,7 @@
                     </span>
                 </footer>
             </article>
+            <h3>Comments</h3>
             <article class="feed-comments">
                 {% for comment in comments %}
                 
@@ -39,7 +41,7 @@
                 </div>
                 {% endfor %}
             </article>
-            <section>
+            <article class="feed-form">
                 <form action="{% url 'feed:comment_feed' feed.pk %}" method="post">
                     <div class="form-groups">
                         {% csrf_token %}
@@ -47,5 +49,9 @@
                         <button type="submit" class="btn btn-black">Post</button>
                     </div>
                 </form>
-            </section>
+            </article>
+        </section>
 {% endblock content %}
+{% block script %}
+        {% comment %} <script src="{% static 'js/feed_detail.js' %}"></script> {% endcomment %}
+{% endblock script %}

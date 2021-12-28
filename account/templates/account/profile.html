@@ -1,10 +1,10 @@
 {% extends 'base.html' %}
-
+{% load humanize %}
 {% block content %}
     <section class="profile">
         <h1>Profile</h1>
-        <article>
-            <p>{{ user.first_name }} {{ user.last_name }}</p>
+        <article class="profile-info">
+            <h3>{{ user.first_name }} {{ user.last_name }}</h3>
             <div class="stats">
                 <a href="{% url 'following_list' user.profile.pk %}" class="following_stat">
                     <h3>Following</h3>
@@ -30,19 +30,36 @@
             </div>
            
         </article>
-        <article>
+        <article class="profile-feeds">
             {% for feed  in feeds %}
-            <div>
-                <div class="box">
-                    <a href="{% url 'feed:feed_detail' feed.pk %}">{{ feed }}</a>
+                <div class="feed">
+                    {% comment %} <a href="{% url 'feed:feed_detail' feed.pk %}">{{ feed }}</a> {% endcomment %}
+                    <header class="feed-header">
+                        <a href="{% url 'profile' feed.user.pk %}" class="feed-user">{{ feed.user }}</a>
+                        <span class="feed-date">{{ feed.created | naturaltime }}</span>
+                    </header>
+                    <div class="feed-body">
+                        <p>{{ feed.content }}</p>
+                    </div>
+                    <footer class="feed-footer">
+                     
+                        <span class="feed-likes">
+                            <span class="feed-like-number">{{ feed.likes.all | length}}</span>
+                            <span>like{{ feed.likes.count| pluralize}}</span>
+    
+                            {% comment %} <a href="{% url 'feed:comment_feed' feed.pk %}" class="feed-comment-icon">📝</a> {% endcomment %}
+                            <span class="feed-comment-number">{{ feed.comments.all | length}}</span>
+                            <span>comment{{ feed.comments.count| pluralize}}</span>
+                            <a href="{% url 'feed:feed_detail' feed.pk %}" class="btn">View</a>
+                        </span>
+                    </footer>
                 </div>
-            </div>
             {% empty %}
                 {% if request.user == user.user %}
                 
-                <p>You haven't posted anything yet.</p>
+                <p class="no-feeds">You haven't posted anything yet.</p>
                 {% else %}
-                <p>{{ user.username }} hasn't posted anything yet.</p>
+                <p class="no-feeds">{{ user.username }} hasn't posted anything yet.</p>
                 {% endif %}
             {% endfor %}
         </article>
