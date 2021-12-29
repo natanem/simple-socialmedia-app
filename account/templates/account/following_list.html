@@ -1,20 +1,20 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <section class="following_list">
+    <section class="following-list">
         <h1>{{ profile.user.username }} is following</h1>
         <article>
             {% for following_user in following %}
-                <div class="info">
+                <div class="profile-list-info">
                     <div>
-                        <a href="{% url 'profile' following_user.pk %}"><strong> {{ following_user.user.username }}</strong></a>
+                        <a class="username" href="{% url 'profile' following_user.pk %}"><strong> {{ following_user.user.username }}</strong></a>
                         <div class="stat">
                             <span> {{ following_user.following.all|length}} Following </span>
                             <span> {{ following_user.followers.all|length}} Followers </span>
                             <span>{{  following_user.user.feeds.all|length}} Posts</span>
                         </div>
                     </div>
-                    <a href="{% url 'follow' following_user.pk %}" class="follow">
+                    <a href="{% url 'follow' following_user.pk %}" class="btn btn-follow">
                         {% if request.user.profile in following_user.followers.all %}
                             Unfollow
                         {% else %}

@@ -12,7 +12,7 @@
     <header>
         <div class="container">
             <nav>
-                <div class="logo"><a href="{% url 'landing:home' %}">sm📷</a></div>
+                <div class="logo"><a href="{% url 'landing:home' %}">sn📷</a></div>
                 <ul>
                     <li><a href="{% url 'landing:home' %}">Home </a></li>
                     {% if request.user.is_authenticated %}
@@ -24,14 +24,15 @@
                         </li>
                         <li><a href="{% url 'feed:feed_list' %}">Feeds </a></li>
                         {% comment %} <li><a href="{% url 'feed:feed_create' %}">Post a Feeds </a></li> {% endcomment %}
-                    {% endif %}
+                    
                 </ul>
                 <form class="search-form" action="{% url 'search' %}" method="get">
-                    <div class="form-groups">
-                    <input type="search" name="query" id="search-input" class="search-input">
+                    <div class="form-group">
+                        <input type="search" name="query" id="search-input" class="search-input">
                     </div>
                     <button class="btn btn-primary" type="submit">search</button>
                 </form>
+                {% endif %}
                 <ul class="end">
                     {% if request.user.is_authenticated %}
                     
@@ -55,8 +56,10 @@
     </main>
     <footer class="footer">
         <section class="container">
-            <h4>sn</h4>
-            <p>All right reserved &copy; <span class="year"></span></p>
+            <div class="copyright-info">
+                <h4>sn</h4>
+                <p>All right reserved &copy; <span class="year"></span></p>
+            </div>
         </section>
     </footer>
     {% block script %}

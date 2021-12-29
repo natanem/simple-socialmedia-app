@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'landing.apps.LandingConfig',
     'feed.apps.FeedConfig',
     'notification.apps.NotificationConfig',
+    'direct_message.apps.DirectMessageConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -49,6 +50,7 @@ INSTALLED_APPS = [
     'django.contrib.humanize',
 
     # 3rd party apps
+    ''
     'rest_framework'
 
 ]

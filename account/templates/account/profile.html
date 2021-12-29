@@ -4,22 +4,22 @@
     <section class="profile">
         <h1>Profile</h1>
         <article class="profile-info">
-            <h3>{{ user.first_name }} {{ user.last_name }}</h3>
+            <h3 class="profile-user-info">{{ user.first_name }} {{ user.last_name }}</h3>
             <div class="stats">
                 <a href="{% url 'following_list' user.profile.pk %}" class="following_stat">
-                    <h3>Following</h3>
-                    {{ user.profile.following.all|length}}
+                    <p>Following</p>
+                    <span>{{ user.profile.following.all|length}}</span>
                 </a>
                 <a href="{% url 'followers_list' user.profile.pk %}" class="followers_stat">
-                    <h3>Followers</h3>
-                    {{ user.profile.followers.all|length}}
+                    <p>Followers</p>
+                    <span>{{ user.profile.followers.all|length}}</span>
                 </a>
                 <div class="feed_stat">
-                    <h3>Post</h3>
-                    {{ user.feeds.all|length}}
+                    <p>Post</p>
+                    <span>{{ user.feeds.all|length}}</span>
                 </div>
                  {% if request.user != user %}
-                    <a href="{% url 'follow' user.profile.pk %}" class="follow">
+                    <a href="{% url 'follow' user.profile.pk %}" class="btn btn-follow">
                         {% if request.user.profile in user.profile.followers.all %}
                             Unfollow
                         {% else %}
@@ -31,6 +31,11 @@
            
         </article>
         <article class="profile-feeds">
+            {% if user == request.user %}
+                <p>Your Posts</p>
+            {% else %}
+                <p>{{ user.username |title }}'s Posts</p>
+            {% endif %}
             {% for feed  in feeds %}
                 <div class="feed">
                     {% comment %} <a href="{% url 'feed:feed_detail' feed.pk %}">{{ feed }}</a> {% endcomment %}
@@ -43,14 +48,30 @@
                     </div>
                     <footer class="feed-footer">
                      
-                        <span class="feed-likes">
-                            <span class="feed-like-number">{{ feed.likes.all | length}}</span>
-                            <span>like{{ feed.likes.count| pluralize}}</span>
-    
-                            {% comment %} <a href="{% url 'feed:comment_feed' feed.pk %}" class="feed-comment-icon">📝</a> {% endcomment %}
-                            <span class="feed-comment-number">{{ feed.comments.all | length}}</span>
-                            <span>comment{{ feed.comments.count| pluralize}}</span>
-                            <a href="{% url 'feed:feed_detail' feed.pk %}" class="btn">View</a>
+                        <span class="feed-info">
+                            <a href="{% url 'feed:like_feed' feed.pk %}" class="feed-like-icon" data-feed-id="{{feed.pk }}" data-action=
+                            {% if request.user in feed.likes.all %}
+                            'unlike'
+                            {% endif %}
+                            'like'
+                            >
+                                {% if request.user in feed.likes.all %}
+                                👍
+                                {% else %}
+                                👍🏼
+                                {% endif %}
+                            </a>
+                            <div class="feed-like-info">
+
+                                <span class="feed-like-number">{{ feed.likes.all | length}}</span>
+                                <span>like{{ feed.likes.count| pluralize}}</span>
+                            </div>
+                            <div class="feed-comment-info">
+
+                                <span class="feed-comment-number">{{ feed.comments.all | length}}</span>
+                                <span>comment{{ feed.comments.count| pluralize}}</span>
+                            </div>
+                            <a href="{% url 'feed:feed_detail' feed.pk %}" class="btn btn-primary">View</a>
                         </span>
                     </footer>
                 </div>

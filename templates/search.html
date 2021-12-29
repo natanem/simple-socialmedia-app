@@ -6,9 +6,16 @@
             <article class='profile'>
                 <h3>People</h3>
                 {% for profile in profiles %}
-                    <div>
-                       <a href="{% url 'profile' profile.pk %}"><strong> {{ profile.user.username }}</strong></a>
-                        <a href="{% url 'follow' profile.pk %}" class="follow">
+                    <div class="profile-list-info">
+                        <div>
+                            <a class="username" href="{% url 'profile' profile.pk %}"><strong> {{ profile.user.username }}</strong></a>
+                            <div class="stat">
+                                <span> {{ profile.following.all|length}} Following </span>
+                                <span> {{ profile.followers.all|length}} Followers </span>
+                                <span>{{  profile.user.feeds.all|length}} Posts</span>
+                            </div>
+                        </div>
+                        <a href="{% url 'follow' profile.pk %}" class="btn btn-follow">
                             {% if request.user.profile in profile.followers.all %}
                                 Unfollow
                             {% else %}
@@ -23,7 +30,6 @@
         <article class="feeds">
             <h3>Feeds</h3>
             {% for feed  in feeds %}
-            <div>
                 <div class="feed">
                     {% comment %} <a href="{% url 'feed:feed_detail' feed.pk %}">{{ feed }}</a> {% endcomment %}
                     <header class="feed-header">
@@ -34,14 +40,7 @@
                         <p>{{ feed.content }}</p>
                     </div>
                     <footer class="feed-footer">
-                        <div>
-                            {% for like in feed.likes.all|slice:3 %}
-                                <span class="user-like">
-                                    {{like.username|upper|slice:1}}
-                                </span>
-                            {% endfor %}
-                        </div>
-                        <span class="feed-likes">
+                        <div class="feed-info">
                             <a href="{% url 'feed:like_feed' feed.pk %}" class="feed-like-icon" data-feed-id="{{feed.pk }}" data-action=
                             {% if request.user in feed.likes.all %}
                             'unlike'
@@ -54,17 +53,18 @@
                                 👍🏼
                                 {% endif %}
                             </a>
-                            <span class="feed-like-number">{{ feed.likes.all | length}}</span>
-                            <span>like{{ feed.likes.count| pluralize}}</span>
-    
-                            {% comment %} <a href="{% url 'feed:comment_feed' feed.pk %}" class="feed-comment-icon">📝</a> {% endcomment %}
-                            <span class="feed-comment-number">{{ feed.comments.all | length}}</span>
-                            <span>comment{{ feed.comments.count| pluralize}}</span>
-                            <a href="{% url 'feed:feed_detail' feed.pk %}" class="btn">View</a>
-                        </span>
+                            <div class="feed-like-info">
+                                <span class="feed-like-number">{{ feed.likes.all | length}}</span>
+                                <span>like{{ feed.likes.count| pluralize}}</span>
+                            </div>
+                            <div class="feed-comment-info">
+                                <span class="feed-comment-number">{{ feed.comments.all | length}}</span>
+                                <span>comment{{ feed.comments.count| pluralize}}</span>
+                            </div>
+                            <a href="{% url 'feed:feed_detail' feed.pk %}" class="btn btn-secondary">View</a>
+                        </div>
                     </footer>
                 </div>
-            </div>
             {% empty %}
                 <p> no posts.</p>
             {% endfor %}

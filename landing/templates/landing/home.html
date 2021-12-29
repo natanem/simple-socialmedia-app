@@ -2,15 +2,15 @@
 
 {% block content %}
     <section class="home">
-        <div class="lead">
+        <div>
             <h1>Make Cool Friends !!!!</h1>
             <p>
                 Friend Finder is a social network template that can be used to connect people. 
                 The template offers Landing pages, News Feed, Image/Video Feed, Chat Box, 
                 Timeline and lot more.
             </p>
-            <a class="btn btn-black" href="{% url 'accounts:login' %}">Login</a>
-            <a class="btn btn-black" href="{% url 'signup' %}">Register</a>
+            <a class="btn btn-primary" href="{% url 'accounts:login' %}">Login</a>
+            <a class="btn btn-secondary" href="{% url 'signup' %}">Register</a>
         </div>
     </section>
 {% endblock content %}
