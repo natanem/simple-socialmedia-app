@@ -22,11 +22,17 @@
                             {% endif %}
                             </a>
                         </li>
+                        <li><a class="notification-link"href="{% url 'direct_message:message_list' %}">Messages 
+                            {% if message_counts > 0 %}
+                                <span class="notification-counts">{{ message_counts }}</span>
+                            {% endif %}
+                            </a>
+                        </li>
                         <li><a href="{% url 'feed:feed_list' %}">Feeds </a></li>
                         {% comment %} <li><a href="{% url 'feed:feed_create' %}">Post a Feeds </a></li> {% endcomment %}
                     
                 </ul>
-                <form class="search-form" action="{% url 'search' %}" method="get">
+                <form class="search-form" action="{% url 'landing:search' %}" method="get">
                     <div class="form-group">
                         <input type="search" name="query" id="search-input" class="search-input">
                     </div>
@@ -47,7 +53,7 @@
             </nav>
         </div>
     </header>
-    <main>
+    <main class="main">
         <section class="container">
             {% block content %}
             

@@ -8,7 +8,7 @@
                 {% for profile in profiles %}
                     <div class="profile-list-info">
                         <div>
-                            <a class="username" href="{% url 'profile' profile.pk %}"><strong> {{ profile.user.username }}</strong></a>
+                            <a class="username" href="{% url 'profile' profile.user.pk %}"><strong> {{ profile.user.username }}</strong></a>
                             <div class="stat">
                                 <span> {{ profile.following.all|length}} Following </span>
                                 <span> {{ profile.followers.all|length}} Followers </span>

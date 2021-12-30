@@ -6,11 +6,13 @@
         <article class="profile-info">
             <h3 class="profile-user-info">{{ user.first_name }} {{ user.last_name }}</h3>
             <div class="stats">
-                <a href="{% url 'following_list' user.profile.pk %}" class="following_stat">
+                
+                <a href="{% if user.profile.following.all %} {% url 'following_list' user.profile.pk %} {% endif %}" class="following_stat">
                     <p>Following</p>
                     <span>{{ user.profile.following.all|length}}</span>
                 </a>
-                <a href="{% url 'followers_list' user.profile.pk %}" class="followers_stat">
+                             
+                <a href="{% if user.profile.followers.all %}{% url 'followers_list' user.profile.pk %} {% endif %}" class="followers_stat">
                     <p>Followers</p>
                     <span>{{ user.profile.followers.all|length}}</span>
                 </a>
@@ -26,6 +28,11 @@
                             Follow
                         {% endif %}
                     </a>
+                    {% if request.user.profile in user.profile.followers.all %}
+                    <a href="{% url 'direct_message:message_send' user.pk %}" class="btn btn-secondary">
+                            Message
+                        </a>
+                    {% endif %}
                 {% endif %}
             </div>
            
@@ -76,11 +83,10 @@
                     </footer>
                 </div>
             {% empty %}
-                {% if request.user == user.user %}
-                
-                <p class="no-feeds">You haven't posted anything yet.</p>
+                {% if request.user == user %}
+                    <p class="no-feeds">You haven't posted anything yet.</p>
                 {% else %}
-                <p class="no-feeds">{{ user.username }} hasn't posted anything yet.</p>
+                    <p class="no-feeds">{{ user.username }} hasn't posted anything yet.</p>
                 {% endif %}
             {% endfor %}
         </article>

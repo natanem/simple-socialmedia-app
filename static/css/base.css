@@ -66,7 +66,12 @@ textarea:active{
 .container{
     width: 100%;
     max-width: 1200px;
+    padding: var(--spacing-medium);
     margin: auto;
+}
+.border-bottom{
+
+    border-bottom: 1px solid var(--clr-gray-dark);
 }
 .form-group{
     flex-grow: 3;
@@ -106,6 +111,14 @@ nav{
     justify-content: space-between;
     align-items: center;
     padding: var(--spacing-large) 0px;
+    position: fixed;
+    clear: both;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    background-color: var(--clr-white);
+    margin-bottom: 200px;
 }
 
 nav ul{
@@ -118,6 +131,9 @@ nav li a{
 }
 .logo{
     margin-right: auto;
+}
+.main{
+    margin-top: 80px;
 }
 .search-form, 
 .comment-form{
@@ -133,7 +149,8 @@ nav li a{
 .followers-list,
 .notifications, 
 .copyright-info,
-.home
+.home,
+.conversation
 {
     max-width: 600px;
     margin: auto;
@@ -221,7 +238,7 @@ nav li a{
 /* Profile info */
 
 .profile-info{
-    padding: var(--spacing-large);
+    padding: var(--spacing-small);
 }
 .profile-user-info{
     text-align: center;
@@ -302,10 +319,74 @@ nav li a{
     
 }
 
+.messages{
+    width: 100%;
+    height: 4 00px;
+    margin: var(--spacing-large) auto;
+    padding: var(--spacing-large);
+    border: 1px solid var(--clr-gray-dark);
+    overflow-y: scroll;
+}
+.message::-webkit-scrollbar{
+    display: none;
+}
+.conversation form{
+    width: 100%;
+}
+.message-info{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: stretch;
+    width: 100%;
+}
+.message-header{
+    display: flex;
+    justify-content: space-between;
+
+}
+.message-user{
+    margin-right: auto;
+}
+.message-body{
+    font-size: .8rem;
+    display: flex;
+    justify-content: space-between;
+}
+.message-date{
+    font-size: .8rem;
+    color: var(--clr-gray-light);
+}
+.message-alert{
+    width: 10px;
+    height: 10px;
+    border-radius: 100%;
+    align-self: center;
+    margin: 0px var(--spacing-small);
+}
+.message-alert.unseen{
+    background: var(--clr-primary);
+}
+.message{
+    max-width: 50%;
+    border: 1px solid var(--clr-gray-light);
+    border-radius: var(--size-small);
+    padding: var(--spacing-small);
+    margin: var(--spacing-small);
+}
+.message.left{
+   transform: translate(0);
+   background-color: var(--clr-accent);
+}
+.message.right{
+    transform: translate(100%);
+    background-color: var(--clr-secondary);
+    
+}
 .copyright-info{
     text-align: center;
 }
-@media (max-width:700px) {
+@media (max-width:1000px) {
     nav{
         flex-direction: column;
         justify-content: space-between;
@@ -321,5 +402,8 @@ nav li a{
     }
     nav ul{
         
+    }
+    .main{
+        margin-top: 120px;
     }
 }

@@ -2,12 +2,13 @@
 
 {% block content %}
     <section class="following-list">
+        {% if following %}
         <h1>{{ profile.user.username }} is following</h1>
         <article>
             {% for following_user in following %}
                 <div class="profile-list-info">
                     <div>
-                        <a class="username" href="{% url 'profile' following_user.pk %}"><strong> {{ following_user.user.username }}</strong></a>
+                        <a class="username" href="{% url 'profile' following_user.user.pk %}"><strong> {{ following_user.user.username }}</strong></a>
                         <div class="stat">
                             <span> {{ following_user.following.all|length}} Following </span>
                             <span> {{ following_user.followers.all|length}} Followers </span>
@@ -24,5 +25,6 @@
                 </div>
             {% endfor %}
         </article>
+        {% endif %}
     </section>
 {% endblock content %}

@@ -6,4 +6,4 @@ def notifications(request):
         return {
             'notification_counts' : Notification.objects.filter(target=request.user, is_seen=False).count
         }
-    return {'notifications_counts': 0}
+    return {'notification_counts': 0}

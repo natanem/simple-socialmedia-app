@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+   <section class="conversation">
+    <a href="{% url 'direct_message:message_list' %}"> 
+        {% if conversation.user_one == request.user %} 
+            {{conversation.user_two}}
+        {% else %}
+            {{conversation.user_one}}
+        {% endif %}
+    </a>
+    
+    <article class="messages">
+        {% for message in messages %}
+            <div class="message {% if message.user_from == request.user %}right{% else %}left{% endif %}">{{ message.content }}</div>
+        {% endfor %}
+    </article>
+    <form action="" method="post">
+        {% csrf_token %}
+        <div class="form-group">
+
+            {{ form.content }}
+        </div>
+        <button type="submit" class="btn btn-primary">Send</button>
+    </form>
+   </section>
+{% endblock content %}

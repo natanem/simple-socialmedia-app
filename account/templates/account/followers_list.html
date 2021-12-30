@@ -3,11 +3,12 @@
 {% block content %}
     <section class="followers-list">
         <h1>Followers for {{ profile.user.username }}</h1>
+        {% if followers %}
         <article>
             {% for follower in followers %}
                 <div class="profile-list-info">
                     <div>
-                        <a href="{% url 'profile' follower.pk %}"><strong> {{ follower.user.username }}</strong></a>
+                        <a href="{% url 'profile' follower.user.pk %}"><strong> {{ follower.user.username }}</strong></a>
                         <div class="stat">
                             <span> {{ follower.following.all|length}} Following </span>
                             <span> {{ follower.followers.all|length}} Followers </span>
@@ -24,5 +25,6 @@
                 </div>
             {% endfor %}
         </article>
+        {% endif %}
     </section>
 {% endblock content %}

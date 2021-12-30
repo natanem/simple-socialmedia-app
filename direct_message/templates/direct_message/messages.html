@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load humanize %}
+{% block content %}
+    <section class="notifications">
+        {% for message in messages %}
+        <a href="{% url 'direct_message:message_detail' message.pk %}" class="notification-info message-info">
+            <div class="message-header">
+                {% if message.user_one == request.user %}
+                <h4 class="message-user">{{ message.user_two}}</h4>
+                {% else %}
+                <h4 class="message-user">{{ message.user_one}}</h4>
+                {% endif %}
+                <p class="message-date">
+                    {{ message.messages.last.created |naturaltime}}
+                </p>
+            </div>
+            <div class="message-body">
+                <p class="message-detail">
+                    {{ message.messages.last.content|truncatechars:100}}
+                </p>
+                <div class="message-alert {% if not message.messages.last.seen and message.messages.last.user_to == request.user %}unseen{% endif %}"></div>
+              
+               </div>
+
+            </a>
+        {% empty %}
+            <div class="notification-info"> You have no messages. </div>
+        {% endfor %}
+    </section>
+{% endblock content %}
+
+{% comment %} {% url 'direct_message:message_detail'  %} {% endcomment %}
